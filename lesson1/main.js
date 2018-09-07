@@ -1,4 +1,4 @@
-/*
+/*Hometask 1 */
 function hello() {
     console.log("hello");
 }
@@ -17,7 +17,7 @@ loop(5);        // не выполняется ни разу
 loop();         // не выполняется
 
 
-
+/*Hometask 2*/
 
 function calculateArea({name:figure,params:input}) {
 
@@ -69,8 +69,8 @@ console.log(calculateArea(rectangle));
 console.log(calculateArea(circle));
 
 
-*/
 
+/*Hometask 3*/
 class Human {
     constructor(name, age, dateOfBirth){
         this.name = name;
@@ -208,17 +208,113 @@ console.log(managerTwo.displayInfo());
 
 /*Hometask 4*/
 
-function fillingForm() {
-    let text = document.createElement()
+function* fillingForm(form, list) {
+    let object = {};
+    let text = document.querySelector(`#${form.inputId}`);
+    for (let i=0; i < list.length-1; i++){
+        object[list[i].field] = text.value;
+        text.value = '';
+        text.placeholder = list[i+1].placeholder;
+        document.querySelector(`#${form.labelId}`).innerText = list[i+1].label;
+        yield object;
+    }
+    object[list[list.length-1].field] = text.value;
+    return object;
 }
 
-
 function fillForm(){
+    const container = document.querySelector('.container');
     let start = document.getElementById('start');
-    start.parentNode.removeChild(start);
+    container.removeChild(start);
+    let formId = {
+      inputId:'text',
+      labelId: 'form-label',
+      btnID : 'btn'
+    };
+    let formFields = [
+        {field:'name',placeholder:'Ivan',label:"Your Name"},
+        {field:'lastName',placeholder:'Ivanov',label:"Your lastname"},
+        {field:'age',placeholder:'18',label:"Your age"},
+        {field:'proffesion',placeholder:'Developer',label:"Your proffesion"},
+        {field:'color',placeholder:'Red',label:"Favorite color"}];
+
+    let generator = fillingForm(formId,formFields);
+    let form = document.createElement('div');
+
+
+    form.innerHTML = `<label for="${formId.inputId}" id="${formId.labelId}">${formFields[0].label}: </label>
+    <input type="text" id="${formId.inputId}" placeholder="${formFields[0].placeholder}">
+    <button id=${formId.btnID}>Next</button>`;
+
+    container.appendChild(form);
+    let formObject;
+    document.querySelector(`#${formId.btnID}`).addEventListener('click',()=>{
+        formObject = generator.next();
+        if (formObject.done === true){
+            console.log(formObject.value);
+            container.removeChild(form);
+            container.appendChild(start);
+        }
+    });
 }
 
 document.addEventListener("DOMContentLoaded", () =>{
    let start = document.getElementById('start');
    start.addEventListener('click', fillForm);
+});
+
+
+/*Hometask 5*/
+const promises =[];
+const BASEURL = 'https://jsonplaceholder.typicode.com/users/';
+for (let i = 1; i <= 10; i++){
+    promises.push(()=>{
+        return new Promise((resolve,reject)=>{
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', BASEURL+i);
+
+            xhr.onload = function () {
+                if (this.status == 200){
+                    resolve(this.response);
+                } else {
+                    reject('Error Request' + this.status)
+                }
+            };
+
+            xhr.send()
+        })
+    })
+}
+
+let result = [];
+promises[0]().then(response =>{
+   result.push(JSON.parse(response));
+   return promises[1]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[2]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[3]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[4]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[5]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[6]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[7]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[8]();
+}).then(response =>{
+    result.push(JSON.parse(response));
+    return promises[9]();
+}).then(response => {
+    result.push(JSON.parse(response));
+    console.log(result);
 });
