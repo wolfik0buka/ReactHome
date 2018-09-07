@@ -11,7 +11,7 @@ function loop(times = 0, callback = null) {
     }
 }
 
-
+/*tests*/
 loop(5, hello); // выполняется 5 раз
 loop(5);        // не выполняется ни разу
 loop();         // не выполняется
@@ -48,7 +48,7 @@ function calculateArea({name:figure,params:input}) {
     }
     return {area: area, figure:figure, input:input};
 }
-
+/*tests*/
 let square = {
     name: 'square',
     params : 5
@@ -158,6 +158,8 @@ console.log(testEmp);
 console.log(testEmp.displayInfo());
 console.log(testEmp2.displayInfo());
 */
+
+/*tests*/
 console.log(`
 create manager
 
