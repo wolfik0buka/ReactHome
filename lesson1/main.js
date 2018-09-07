@@ -204,3 +204,21 @@ managers after 2
 devThree.changeManager(managerOne);
 console.log(managerOne.displayInfo());
 console.log(managerTwo.displayInfo());
+
+
+/*Hometask 4*/
+
+function fillingForm() {
+    let text = document.createElement()
+}
+
+
+function fillForm(){
+    let start = document.getElementById('start');
+    start.parentNode.removeChild(start);
+}
+
+document.addEventListener("DOMContentLoaded", () =>{
+   let start = document.getElementById('start');
+   start.addEventListener('click', fillForm);
+});
